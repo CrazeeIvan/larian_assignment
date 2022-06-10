@@ -13,6 +13,7 @@ pipeline {
                     }
                     steps {
                           echo "Hello dx11"
+                          echo "${env.WORKSPACE}"
                     }
                     post {
                         always {
@@ -24,7 +25,9 @@ pipeline {
                     agent any
                     steps {
                           echo "Hello data"
-                          
+                          echo "${env.WORKSPACE}"
+                          sh 'python parser.py gog.xml'
+                          sh 'python parser.py steam.xml'
                     }
                     post {
                         always {
@@ -38,6 +41,7 @@ pipeline {
                     }
                     steps {
                             echo "Hello vulkan"
+                            echo "${env.WORKSPACE}"
                     }
                     post {
                         always {

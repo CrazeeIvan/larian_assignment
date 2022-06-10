@@ -1,0 +1,14 @@
+<manifest build="Platform: Win64 Variant:DX11 Version:4.1.1.1533350 generated on 07/04/2022 at 12:00PM">
+    <files>
+      <File hash="b796bfee2757bae689b982b70efea9f3" size="107520">bin/amd_ags_x64.dll</File>
+      <File hash="432d5e12d471c9616ffec7a5c6eef91e" size="161843528">bin/bg3.exe</File>
+      <File hash="cbf6e91f82179c781a6b0a349f914b3c" size="159181128">bin/bg3_dx11.exe</File>
+      <File hash="98e6ccf2ecf0928897f7b4307d42bd84" size="391360">bin/bink2w64.dll</File>
+      <File hash="4b8f1a282bb98c11cf4921991ec727ce" size="389120">bin/CChromaEditorLibrary64.dll</File>
+      <File hash="84a8838070a0d6006d092e5d1780e95d" size="486">bin/ChromaAppInfo.xml</File>
+      <File hash="5965b4a662b2016a14b5ec1a6c2f41d8" size="15274496">bin/Galaxy64.dll</File>
+      <File hash="b672d9fcbed94e5a7f89df362bf2179e" size="1524736">bin/GFSDK_Aftermath_Lib.x64.dll</File>
+      <File hash="3cb64af0d8315f3eb8a069ec3332220e" size="19146752">bin/libSceProsperoWavePsslc.dll</File>
+      <File hash="7bbbb70f34fc4f2977ba442ee5fc37ac" size="14452936">bin/nvngx_dlss.dll</File>
+    </files>
+</manifest>

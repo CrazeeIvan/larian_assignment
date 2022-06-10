@@ -1,0 +1,14 @@
+<manifest build="Platform: Win64 Variant:DX11 Version:4.1.1.1533350 generated on 07/04/2022 at 12:00PM">
+    <files>
+      <File hash="b796bfee2757bae689b982b70efea9f3" size="107520">bin/amd_ags_x64.dll</File>
+      <File hash="b5986da9c04e6c1632a919b10adcfbf4" size="161880904">bin/bg3.exe</File>
+      <File hash="dad2e988573cb1b6af6938b41f6ee4ae" size="159218504">bin/bg3_dx11.exe</File>
+      <File hash="98e6ccf2ecf0928897f7b4307d42bd84" size="391360">bin/bink2w64.dll</File>
+      <File hash="4b8f1a282bb98c11cf4921991ec727ce" size="389120">bin/CChromaEditorLibrary64.dll</File>
+      <File hash="84a8838070a0d6006d092e5d1780e95d" size="486">bin/ChromaAppInfo.xml</File>
+      <File hash="b672d9fcbed94e5a7f89df362bf2179e" size="1524736">bin/GFSDK_Aftermath_Lib.x64.dll</File>
+      <File hash="3cb64af0d8315f3eb8a069ec3332220e" size="19146752">bin/libSceProsperoWavePsslc.dll</File>
+      <File hash="7bbbb70f34fc4f2977ba442ee5fc37ac" size="14452936">bin/nvngx_dlss.dll</File>
+      <File hash="e80d472e53630f01edbca6d874e053a0" size="560128">bin/Osiris.dll</File>
+    </files>
+</manifest>
