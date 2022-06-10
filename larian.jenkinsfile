@@ -29,8 +29,6 @@ pipeline {
           agent any
           steps {
             checkout scm
-            echo "Hello data"
-            echo "${env.WORKSPACE}"
             bat 'C:/Users/Devcan1/AppData/Local/Programs/Python/Python310/python parser.py gog.xml'
             bat 'C:/Users/Devcan1/AppData/Local/Programs/Python/Python310/python parser.py steam.xml'
           }
