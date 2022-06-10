@@ -3,53 +3,59 @@
 */
 
 pipeline {
-    agent none
-    stages {
-        stage('Build') {
-            parallel {
-                stage('dx11') {
-                    agent {
-                        label "BuildServer 1"
-                    }
-                    steps {
-                          echo "Hello dx11"
-                          echo "${env.WORKSPACE}"
-                    }
-                    post {
-                        always {
-                                echo "Hello dx11 post"
-                        }
-                    }
-                }
-                stage('data') {
-                    agent any
-                    steps {
-                          echo "Hello data"
-                          echo "${env.WORKSPACE}"
-                          sh 'python parser.py gog.xml'
-                          sh 'python parser.py steam.xml'
-                    }
-                    post {
-                        always {
-                                echo "Hello data post"
-                        }
-                    }
-                }
-                stage('vulkan') {
-                    agent {
-                        label "BuildServer 2"
-                    }
-                    steps {
-                            echo "Hello vulkan"
-                            echo "${env.WORKSPACE}"
-                    }
-                    post {
-                        always {
-                                echo "Hello vulkan post"
-                        }
-                    }
-                }
-            }
+  agent none
+  options {
+    skipDefaultCheckout true
+  }
+  stages {
+    stage('Build') {
+      parallel {
+        stage('dx11') {
+          agent {
+              label "BuildServer 1"
+          }
+          steps {
+            checkout scm
+            echo "Hello dx11"
+            echo "${env.WORKSPACE}"
+          }
+          post {
+              always {
+                      echo "Hello dx11 post"
+              }
+          }
         }
+        stage('data') {
+          agent any
+          steps {
+            checkout scm
+            echo "Hello data"
+            echo "${env.WORKSPACE}"
+            bat 'C:/Users/Devcan1/AppData/Local/Programs/Python/Python310/python parser.py gog.xml'
+            bat 'C:/Users/Devcan1/AppData/Local/Programs/Python/Python310/python parser.py steam.xml'
+          }
+          post {
+            always {
+                    echo "Hello data post"
+            }
+          }
+        }
+        stage('vulkan') {
+          agent {
+            label "BuildServer 2"
+          }
+          steps {
+            checkout scm
+            echo "Hello vulkan"
+            echo "${env.WORKSPACE}"
+          }
+          post {
+            always {
+              echo "Hello vulkan post"
+            }
+          }
+        }
+      }
     }
+  }
 }
