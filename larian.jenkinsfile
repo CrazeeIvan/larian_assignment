@@ -3,6 +3,9 @@
 */
 
 pipeline {
+  // environment {
+  //   String VERSION = ""
+  // }
   agent none
   options {
     skipDefaultCheckout true
@@ -30,17 +33,18 @@ pipeline {
           steps {
             script {
               checkout scm
-              GOGVERSION = bat (
+              def GOG_VERSION = bat (
                 script: """C:/Users/Devcan1/AppData/Local/Programs/Python/Python310/python parser.py gog.xml""",
                 returnStdout: true,
               ).trim()
-              echo "Result:\n ${GOGVERSION}"
-              STEAMVERSION = bat (
+              echo "GoG build details:\n ${GOG_VERSION}"
+              def BUILD_DETAILS_AS_LIST = GOG_VERSION.split('\n')
+              env.VERSION = BUILD_DETAILS_AS_LIST[4].split(' ')[1]
+              def STEAM_VERSION = bat (
                 script: """C:/Users/Devcan1/AppData/Local/Programs/Python/Python310/python parser.py steam.xml""",
                 returnStdout: true,
               ).trim()
-              echo "Result:\n ${STEAMVERSION}"
-              // currentBuild.displayName = "4.1.1.1533350"
+              echo "Steam build details:\n ${STEAM_VERSION}"
             }
           }
           post {
@@ -75,8 +79,14 @@ pipeline {
               steps {
                 script {
                   try {
-                    echo "Hello creation"
-
+                    echo "Version is: ${env.VERSION}"
+                    echo "Previous build version was: ${currentBuild.previousBuild.buildVariables["VERSION"]}"
+                    if (currentBuild.previousBuild.buildVariables["VERSION"] != env.VERSION) {
+                      echo "Updating version"
+                      currentBuild.displayName = env.VERSION
+                    } else {
+                      echo "Version unchanged. Nothing to do!"
+                    }
                   }
                   catch (err) {
                     unstable(message: "${STAGE_NAME} is unstable")

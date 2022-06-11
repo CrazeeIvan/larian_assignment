@@ -1,0 +1,14 @@
+Steps Taken
+1. Install git on built-in node and buildserver 1 & 2
+2. Install python on built-in node
+3. Tested unstable in Upload main stage with bat "exit /b 3"
+
+Assumptions
+1. No additional plug-ins can be installed. Pipeline should use already installed plug-ins only.
+  https://plugins.jenkins.io/badge/ - Provides a simpler, cleaner mechanism for badging/tagging Jenkins builds.
+2. GoG and Steam versions will always be in the provided format.
+3. GoG and Steam versions will always be the same version.
+4. Even if version is older than previous build, patch creation should be executed.
+5. Assignment is to check version in previousBuild to see if currentBuild is a new version,
+  but it probably makes more sense to check all previously successful builds to see
+  if this version was built already before creating the badge.
