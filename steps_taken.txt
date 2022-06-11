@@ -1,7 +1,7 @@
 Steps Taken
 1. Install git on built-in node and buildserver 1 & 2
 2. Install python on built-in node
-3. Tested unstable in Upload main stage with bat "exit /b 3"
+3. Tested unstable in main stages with bat "exit /b 3"
 
 Assumptions
 1. No additional plug-ins can be installed. Pipeline should use already installed plug-ins only.

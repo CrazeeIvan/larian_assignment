@@ -1,22 +1,25 @@
 #!/usr/bin/env groovy
-/*CIA_Larian_TEST_Pipeline
+/*
+###############################################################################
+#               Author: Ciaran Maher                                          #
+#               Email:  ciaranmaher@gmail.com                                 #
+#               Date:   11/06/2022                                            #
+###############################################################################
 */
 
 pipeline {
-  // environment {
-  //   String VERSION = ""
-  // }
   agent none
   options {
+    /*Only need to checkout during "Build stage" given provided architecture.
+    Thus increasing efficiency. May be necessary to revert this option depending on
+    actual architecture.*/
     skipDefaultCheckout true
   }
   stages {
     stage('Build') {
       parallel {
         stage('dx11') {
-          agent {
-              label "BuildServer 1"
-          }
+          agent any
           steps {
             checkout scm
             echo "Hello dx11"
@@ -24,7 +27,7 @@ pipeline {
           }
           post {
               always {
-                      echo "Hello dx11 post"
+                echo "Hello dx11 post"
               }
           }
         }
@@ -33,13 +36,21 @@ pipeline {
           steps {
             script {
               checkout scm
+              /*Unable to set python path in jenkins. Spent ~1 hour tinkering with it and decided it
+              was a low priority when I can just use an absolute path to python. This is only possible
+              because python is installed in the same directory for all potential node/agents and
+              should be resolved.
+              */
               def GOG_VERSION = bat (
                 script: """C:/Users/Devcan1/AppData/Local/Programs/Python/Python310/python parser.py gog.xml""",
                 returnStdout: true,
               ).trim()
               echo "GoG build details:\n ${GOG_VERSION}"
-              def BUILD_DETAILS_AS_LIST = GOG_VERSION.split('\n')
-              env.VERSION = BUILD_DETAILS_AS_LIST[4].split(' ')[1]
+              /*Assuming that GoG and Steam versions are the same but do not check to confirm. As both versions are
+              expected to be the same, only the GoG version is used as the build version. There are many viable ways
+              to address this, but outside scope for this assignment.
+              */
+              env.VERSION = GOG_VERSION.split('\n')[4].split(' ')[1]
               def STEAM_VERSION = bat (
                 script: """C:/Users/Devcan1/AppData/Local/Programs/Python/Python310/python parser.py steam.xml""",
                 returnStdout: true,
@@ -49,14 +60,12 @@ pipeline {
           }
           post {
             always {
-                    echo "Hello data post"
+              echo "Hello data post"
             }
           }
         }
         stage('vulkan') {
-          agent {
-            label "BuildServer 2"
-          }
+          agent any
           steps {
             checkout scm
             echo "Hello vulkan"
@@ -73,6 +82,10 @@ pipeline {
     stage('Upload') {
       parallel {
         stage('patch and upload') {
+          /*Separate "patch and upload" stage is probably a detriment to the build logic
+          as it delays the execution of the "patch creation" stage until after the
+          node/agents become available again. Meaning the stage with the longest typical run-time is executed last.
+          Possibility for optimisation here.*/
           stages {
             stage('patch creation') {
               agent any
@@ -95,7 +108,7 @@ pipeline {
               }
               post {
                 always {
-                        echo "Hello creation post"
+                  echo "Hello creation post"
                 }
               }
             }
@@ -113,7 +126,7 @@ pipeline {
               }
               post {
                 always {
-                        echo "patch upload GoG post"
+                  echo "patch upload GoG post"
                 }
               }
             }
@@ -132,7 +145,7 @@ pipeline {
               }
               post {
                 always {
-                        echo "patch upload steam post"
+                  echo "patch upload steam post"
                 }
               }
             }
@@ -153,7 +166,7 @@ pipeline {
           }
           post {
               always {
-                      echo "Hello symbolserver post"
+                echo "Hello symbolserver post"
               }
           }
         }
