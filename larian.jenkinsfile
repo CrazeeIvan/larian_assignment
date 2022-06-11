@@ -28,9 +28,20 @@ pipeline {
         stage('data') {
           agent any
           steps {
-            checkout scm
-            bat 'C:/Users/Devcan1/AppData/Local/Programs/Python/Python310/python parser.py gog.xml'
-            bat 'C:/Users/Devcan1/AppData/Local/Programs/Python/Python310/python parser.py steam.xml'
+            script {
+              checkout scm
+              GOGVERSION = bat (
+                script: """C:/Users/Devcan1/AppData/Local/Programs/Python/Python310/python parser.py gog.xml""",
+                returnStdout: true,
+              ).trim()
+              echo "Result:\n ${GOGVERSION}"
+              STEAMVERSION = bat (
+                script: """C:/Users/Devcan1/AppData/Local/Programs/Python/Python310/python parser.py steam.xml""",
+                returnStdout: true,
+              ).trim()
+              echo "Result:\n ${STEAMVERSION}"
+              // currentBuild.displayName = "4.1.1.1533350"
+            }
           }
           post {
             always {
@@ -50,6 +61,146 @@ pipeline {
           post {
             always {
               echo "Hello vulkan post"
+            }
+          }
+        }
+      }
+    }
+    stage('Upload') {
+      parallel {
+        stage('patch and upload') {
+          stages {
+            stage('patch creation') {
+              agent any
+              steps {
+                script {
+                  try {
+                    echo "Hello creation"
+
+                  }
+                  catch (err) {
+                    unstable(message: "${STAGE_NAME} is unstable")
+                  }
+                }
+              }
+              post {
+                always {
+                        echo "Hello creation post"
+                }
+              }
+            }
+            stage('patch upload GoG') {
+              agent any
+              steps {
+                script {
+                  try {
+                    echo "patch upload GoG"
+                  }
+                  catch (err) {
+                    unstable(message: "${STAGE_NAME} is unstable")
+                  }
+                }
+              }
+              post {
+                always {
+                        echo "patch upload GoG post"
+                }
+              }
+            }
+            stage('patch upload steam') {
+              agent any
+              steps {
+                script {
+                  try {
+                    echo "patch upload steam"
+
+                  }
+                  catch (err) {
+                    unstable(message: "${STAGE_NAME} is unstable")
+                  }
+                }
+              }
+              post {
+                always {
+                        echo "patch upload steam post"
+                }
+              }
+            }
+          }
+        }
+        stage('upload symbols to symbolserver') {
+          agent any
+          steps {
+            script {
+              try {
+                echo "Hello symbolserver"
+
+              }
+              catch (err) {
+                unstable(message: "${STAGE_NAME} is unstable")
+              }
+            }
+          }
+          post {
+              always {
+                      echo "Hello symbolserver post"
+              }
+          }
+        }
+        stage('upload to steam') {
+          agent any
+          steps {
+            script {
+              try {
+                echo "Hello steam"
+
+              }
+              catch (err) {
+                unstable(message: "${STAGE_NAME} is unstable")
+              }
+            }
+          }
+          post {
+            always {
+              echo "Hello steam post"
+            }
+          }
+        }
+        stage('upload to GoG') {
+          agent any
+          steps {
+            script {
+              try {
+                echo "Hello GoG"
+
+              }
+              catch (err) {
+                unstable(message: "${STAGE_NAME} is unstable")
+              }
+            }
+          }
+          post {
+            always {
+              echo "Hello GoG post"
+            }
+          }
+        }
+        stage('installer package creation') {
+          agent any
+          steps {
+            script {
+              try {
+                echo "Hello package"
+
+              }
+              catch (err) {
+                unstable(message: "${STAGE_NAME} is unstable")
+              }
+            }
+          }
+          post {
+            always {
+              echo "Hello package post"
             }
           }
         }

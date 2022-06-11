@@ -13,6 +13,6 @@ build_manifest = file.get('build')
 print('Parsing file', sys.argv[1])
 for child in file.findall('files/File'):
     if child.text.find('bg3.exe') != -1:
-        print("hash:", child.attrib.get('hash'), "size:", child.attrib.get('size'))
+        print("hash:", child.attrib.get('hash'), "\nsize:", child.attrib.get('size'))
 print("Version:", re.search(r'Version:(([^\s]+))', build_manifest).groups()[0])
 print("timestamp:", re.search(r'on (([^\s]+))', build_manifest).groups()[0], re.search(r'at (([^\s]+))', build_manifest).groups()[0])
